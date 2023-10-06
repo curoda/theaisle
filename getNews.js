@@ -25,6 +25,7 @@ function sendQuestion() {
 
         // Split the response by numbers (assuming the articles always start with numbers)
         const articles = data.answer.split(/\d\./).slice(1);
+        console.log(articles);  // Check the split articles
 
         articles.forEach(article => {
             // Extracting title, link, and date
@@ -53,6 +54,7 @@ function sendQuestion() {
                 }
 
                 responseList.appendChild(listItem);
+                console.log(listItem);  // Check each created list item
             }
         });
     })
