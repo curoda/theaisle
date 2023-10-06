@@ -1,4 +1,4 @@
-const API_URL = "https://api.docsbot.ai/teams/[teamId]/bots/[botId]/chat";
+const API_URL = "https://api.docsbot.ai/teams/xwIbVScaj0QaHNNbXE88/bots/arjUh1HU4y4Qeq4J4nFn/chat";
 
 function sendQuestion() {
     const questionInput = document.getElementById('question');
