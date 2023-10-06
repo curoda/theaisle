@@ -1,6 +1,7 @@
 const API_URL = "https://api.docsbot.ai/teams/xwIbVScaj0QaHNNbXE88/bots/arjUh1HU4y4Qeq4J4nFn/chat";
 
 function sendQuestion() {
+    console.log("start of sendQuestion");
     const questionInput = document.getElementById('question');
     const responseList = document.getElementById('responseList');
 
