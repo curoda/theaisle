@@ -1,9 +1,9 @@
-const API_URL = "https://api.docsbot.ai/teams/xwIbVScaj0QaHNNbXE88/bots/arjUh1HU4y4Qeq4J4nFn/chat";
+const API_URL = "https://api.docsbot.ai/teams/[teamId]/bots/[botId]/chat";
 
 function sendQuestion() {
     const questionInput = document.getElementById('question');
-    const responseText = document.getElementById('responseText');
-    
+    const responseList = document.getElementById('responseList');
+
     const data = {
         question: questionInput.value,
         format: 'text'
@@ -20,11 +20,46 @@ function sendQuestion() {
     })
     .then(response => response.json())
     .then(data => {
-        // Update the display section with the returned data
-        responseText.textContent = data.answer; // Assuming 'answer' is a key in the response. Adjust as needed.
+        // Clear existing items
+        responseList.innerHTML = "";
+
+        // Split the response by numbers (assuming the articles always start with numbers)
+        const articles = data.answer.split(/\d\./).slice(1);
+
+        articles.forEach(article => {
+            // Extracting title, link, and date
+            const titleMatch = article.match(/(.*?) - \[Link\]/);
+            const linkMatch = article.match(/\[Link\]\((.*?)\)/);
+            const dateMatch = article.match(/Date: (.*?)$/);
+
+            if (titleMatch && linkMatch) {
+                const title = titleMatch[1].trim();
+                const link = linkMatch[1];
+                const date = dateMatch ? dateMatch[1].trim() : null;
+
+                // Create the list item
+                const listItem = document.createElement('li');
+
+                const linkElement = document.createElement('a');
+                linkElement.href = link;
+                linkElement.textContent = title;
+
+                listItem.appendChild(linkElement);
+
+                if (date && date !== "Not available") {
+                    const dateSpan = document.createElement('span');
+                    dateSpan.textContent = ` - Date: ${date}`;
+                    listItem.appendChild(dateSpan);
+                }
+
+                responseList.appendChild(listItem);
+            }
+        });
     })
     .catch(error => {
         console.error('Error:', error);
-        responseText.textContent = "There was an error processing your request.";
+        const errorItem = document.createElement('li');
+        errorItem.textContent = "There was an error processing your request.";
+        responseList.appendChild(errorItem);
     });
 }
